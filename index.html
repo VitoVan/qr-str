@@ -47,10 +47,15 @@
     <title>QR-STR</title>
   </head>
   <body>
-    <div id='qrcode'></div>
-    <div id='title'></div>
-    <button id='share'>share</button>
-    <div id='share-qrcode' style='display: none'></div>
+    <div id="qrcode"></div>
+    <div id="title"></div>
+    <form id="form" action="index.html" method="get" style="display:none">
+      <input autofocus placeholder="content" type="text" name="q">
+      <input placeholder="title" type="text" name="t">
+      <button type="submit">GO</button>
+    </form>
+    <button id="share">share</button>
+    <div id="share-qrcode" style="display: none"></div>
     <script>
      var url = new URL(window.location.href);
      new QRCode(document.getElementById('qrcode'), url.searchParams.get('q'));
@@ -60,7 +65,12 @@
        new QRCode(document.getElementById('share-qrcode'), window.location.href);
        document.getElementById('share').outerHTML = '<hr>';
        document.getElementById('share-qrcode').style['display'] = 'block';
-     };
+     }
+     if (!url.searchParams.get('q')) {
+       document.getElementById('qrcode').remove();
+       document.getElementById('title').remove();
+       document.getElementById('form').style['display'] = 'block';
+     }
     </script>
   </body>
 </html>
